@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Noah S Kevy">
+  <meta name="description" content="An simple bit of statistics to illustrate variability. This article talks about the scores of golfers to show how variation is relevant when thinking about performance">
+  <title>Variability &amp; Golf</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to article</a>
+<main id="main">
+<article>
+<header>
+<h1>A Statistics Example about<br>Variability & Golf</h1>
+<p class="credit">credit: <a href="https://www.stat.berkeley.edu/~stark/SticiGui/Text/references.htm#hooke">Hooke, 1983</a> as cited by <a href="https://www.stat.berkeley.edu/~stark/SticiGui/Text/location.htm#importance_of_variability">Stark, 2023</a>.</p>
+</header>
+<p>The following excellent example of <strong>variability</strong> comes from P.B. Stark and Robert Hooke.</p>
+<p>Two golfers’ scores are described in the following table.</p>
+<div class="table-wrap" role="region" aria-label="Scores across four games" tabindex="0">
+<table><caption>Scores across four games ⛳</caption><thead><tr><th scope="col">Golfer</th><th scope="col">Score 1</th><th scope="col">Score 2</th><th scope="col">Score 3</th><th scope="col">Score 4</th><th scope="col">Average Score</th></tr></thead><tbody>
+<tr><th scope="row">Jack</th><td>78</td><td>78</td><td>78</td><td>78</td><td>78</td></tr>
+<tr><th scope="row">Jill</th><td>81</td><td>77</td><td>77</td><td>77</td><td>78</td></tr>
+</tbody></table></div>
+<section aria-labelledby="frequency"><h2 id="frequency">Frequency</h2>
+<p>First, recognize that the golfer named Jack scored 78 in every game.</p>
+<div class="question" role="group" aria-labelledby="jack-question">
+<p id="jack-question"><strong>Can you express Jack’s performance as a percentage?</strong></p>
+<div class="buttons"><button type="button" data-answer="jack-yes" aria-controls="jack-answer" aria-pressed="false">yes</button><button type="button" data-answer="jack-no" aria-controls="jack-answer" aria-pressed="false">no</button></div>
+<p class="answer" id="jack-answer" role="status" aria-live="polite" aria-atomic="true"></p>
+</div>
+<p>This percentage is called a <strong>frequency</strong>. In other words, how frequently did Jack score 78? Every time, 100% of the time. There was no <strong>variability</strong>at all. But what about Jill?</p>
+<div class="question" role="group" aria-labelledby="jill-question">
+<p id="jill-question"><strong>Can you express Jill’s performance as a percentage?</strong></p>
+<button type="button" id="reveal-jill" aria-controls="jill-values" aria-expanded="false">click to show the answer</button>
+<div class="table-wrap" id="jill-table" role="region" aria-label="Jill’s scores" tabindex="0">
+    <table>
+        <caption>Jill’s scores</caption>
+        <thead><tr><th scope="col">Golfer</th><th scope="col">Score 1</th><th scope="col">Frequency 1</th><th scope="col">Score 2</th><th scope="col">Frequency 2</th></tr></thead>
+        <tbody id="jill-values"><tr><th scope="row">Jill</th><td><span class="reveal-value" hidden>81</span><span class="placeholder">—</span></td><td><span class="reveal-value" hidden>25%</span><span class="placeholder">—</span></td><td><span class="reveal-value" hidden>77</span><span class="placeholder">—</span></td><td><span class="reveal-value" hidden>75%</span><span class="placeholder">—</span></td></tr></tbody>
+    </table>
+</div>
+<p class="sr-only" id="jill-status" role="status" aria-live="polite"></p>
+</div>
+<p>So Jill scored an 81 in 25% of her games.</p>
+<p>Well now, in Game 1 who won Jack or Jill?</p>
+<p>Remember in golf, whoever has the <strong>lower score wins</strong>.</p>
+<p>So Jack won Game 1.</p>
+<figure><img src="assets/0001-01.jpeg" alt="A flag marks the hole on a golf green beside a sand bunker under a blue sky." loading="lazy"><figcaption class="credit">credit: sergiymolchenko – stock.adobe.com</figcaption></figure>
+</section>
+<section aria-labelledby="prediction"><h2 id="prediction">Prediction</h2>
+<p>Suppose that Jack and Jill always have the same performance. In the next game, Jill scores 77 and Jack scores 78.</p>
+<table class="compact"><caption>Scores in the next game</caption><thead><tr><th scope="col">Golfer</th><th scope="col">Score</th></tr></thead><tbody><tr><th scope="row">Jack</th><td>78</td></tr><tr><th scope="row">Jill</th><td>77</td></tr></tbody></table>
+<p>What were the odds of this happening? Does it help us to know their averages?</p>
+<table class="compact"><caption>Average scores</caption><thead><tr><th scope="col">Golfer</th><th scope="col">Average</th></tr></thead><tbody><tr><th scope="row">Jack</th><td>78</td></tr><tr><th scope="row">Jill</th><td>78</td></tr></tbody></table>
+<p>No, knowing their average score doesn’t help us much. The interesting thing is that Jack and Jill both have the same <strong>average</strong> score. Yet most of the time Jill will beat Jack.</p>
+<div class="table-wrap" role="region" aria-label="Comparison of score frequencies" tabindex="0"><table><caption>Comparison of score frequencies</caption><thead><tr><th scope="col">Golfer</th><th scope="col">Score 1</th><th scope="col">Frequency 1</th><th scope="col">Score 2</th><th scope="col">Frequency 2</th></tr></thead><tbody><tr><th scope="row">Jack</th><td>78</td><td>100%</td><td>—</td><td>—</td></tr><tr><th scope="row">Jill</th><td>81</td><td>25%</td><td>77</td><td>75%</td></tr></tbody></table></div>
+<div class="question" role="group" aria-labelledby="chance-question"><p id="chance-question"><strong>Does Jack stand a chance?</strong></p><div class="buttons"><button type="button" data-answer="chance-yes" aria-controls="chance-answer" aria-pressed="false">Yes</button><button type="button" data-answer="chance-no" aria-controls="chance-answer" aria-pressed="false">No</button></div><p class="answer" id="chance-answer" role="status" aria-live="polite" aria-atomic="true"></p></div>
+</section>
+<p>For more check out <a href="https://www.thedataschool.co.uk/jack-arnaud/sample-a-nd/">this article on Variance by TheDataSchool</a>.</p>
+<footer><p class="credit">All Rights Reserved © 2026 Noah S. Kevy</p></footer>
+</article>
+</main>
+</body>
+</html>
