@@ -99,10 +99,9 @@ def update_html(page_html, page_url, image_url, image_alt):
           for key, value in properties),
         END,
     ])
-    if not start_count:
-        if start and page_html[start - 1] not in "\r\n":
-            block = newline + block
-        block += newline
+    if start and page_html[start - 1] not in "\r\n":
+        block = newline + block
+    block += newline
     return page_html[:start] + block + page_html[end:]
 
 
