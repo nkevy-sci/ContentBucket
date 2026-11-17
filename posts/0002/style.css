@@ -1,0 +1,300 @@
+:root {
+	color-scheme: light;
+	font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	color: #222;
+	background: #f8f8f8;
+	line-height: 1.7;
+	--rust: #963d20;
+	--red: #8b2028;
+	--tint: #f3e5dc;
+	--muted: #615852;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+}
+
+main {
+	width: 61.8%;
+	max-width: 960px;
+	margin: auto;
+	padding: 64px 0 32px;
+}
+
+h1, h2 {
+	line-height: 1.2;
+}
+
+h1 {
+	font-size: clamp(2rem, 5vw, 2.85rem);
+	letter-spacing: -.025em;
+	margin: 0 0 12px;
+}
+
+h2 {
+	font-size: 1.65rem;
+	margin: 48px 0 20px;
+}
+
+p {
+	margin: 0 0 20px;
+}
+
+header {
+	padding-top: 24px;
+	margin-bottom: 32px;
+}
+
+.subtitle {
+	font-size: 1.15rem;
+	color: var(--rust);
+}
+
+a {
+	color: var(--red);
+	text-underline-offset: .18em;
+	overflow-wrap: anywhere;
+}
+
+a:visited {
+	color: #703b32;
+}
+
+a:hover {
+	text-decoration-thickness: 2px;
+}
+
+.credit {
+	color: var(--muted);
+	font-size: .85rem;
+}
+
+.table-wrap {
+	overflow-x: auto;
+	margin: 24px 0;
+	padding: 6px;
+}
+
+table {
+	border-collapse: collapse;
+	width: 100%;
+	font-size: .94rem;
+}
+
+caption {
+	text-align: left;
+	font-weight: 600;
+	margin-bottom: 10px;
+}
+
+th, td {
+	padding: 12px 14px;
+	border: 1px solid #bba394;
+	text-align: center;
+}
+
+thead {
+	background: var(--tint);
+}
+
+th:first-child {
+	text-align: left;
+}
+
+.table-wrap table:has(th:nth-child(7)) {
+	min-width: 560px;
+}
+
+.question {
+	margin: 28px 0;
+}
+
+.question > p:first-child {
+	margin-bottom: 12px;
+}
+
+.choices {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+}
+
+#review .choices {
+	flex-direction: column;
+	align-items: stretch;
+}
+
+button, input {
+	font: inherit;
+	font-size: .94rem;
+}
+
+button {
+	line-height: 1.5;
+	min-height: 44px;
+	min-width: 44px;
+	padding: 10px 18px;
+	border: 1px solid var(--rust);
+	border-radius: 5px;
+	color: var(--rust);
+	background: #fcf0e7;
+	cursor: pointer;
+	text-align: left;
+}
+
+button:hover, button:not(.game)[aria-pressed="true"], .game.is-highlighted {
+	background: var(--rust);
+	color: #fff;
+}
+
+button:not(.game)[aria-pressed="true"] {
+	box-shadow: inset 0 0 0 2px #fff;
+}
+
+.game {
+	text-align: center;
+	width: 100%;
+	padding: 8px;
+    border-radius: 2px;
+}
+
+td:has(.game) {
+	padding: 6px;
+}
+
+:focus-visible {
+	outline: 3px solid var(--red);
+	outline-offset: 4px;
+}
+
+main:focus {
+	outline: none;
+}
+
+.answer {
+	min-height: 1.7em;
+	margin: 14px 0 0;
+}
+
+.input-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+	margin-top: 12px;
+	align-items: center;
+}
+
+input {
+	color: #222;
+	background: #fff;
+	border: 1px solid var(--muted);
+	border-radius: 4px;
+	padding: 9px 12px;
+	min-height: 44px;
+	width: 9rem;
+	max-width: 100%;
+}
+
+figure {
+	max-width: 520px;
+	margin: 32px 0;
+}
+
+img {
+	display: block;
+	width: 100%;
+	height: auto;
+	border-radius: 4px;
+}
+
+figcaption {
+	margin-top: 8px;
+}
+
+footer {
+	margin-top: 48px;
+	padding-top: 20px;
+	border-top: 1px solid #bba394;
+	text-align: right;
+}
+math.formula {
+  margin: 28px 0 38px;
+}
+
+math {
+  font-weight: 450;
+  font-size: 1.2rem;
+  font-family: "Fira Math", "STIX Two Math Sans", "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Optional: Slight adjustment for variables to keep them crisp without aggressive italics */
+mi {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+
+
+.references p {
+	overflow-wrap: anywhere;
+}
+
+.note {
+	border-left: 4px solid var(--rust);
+	padding: 12px 16px;
+	background: var(--tint);
+}
+
+.sr-only, .skip-link:not(:focus) {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+}
+
+.skip-link:focus {
+	position: absolute;
+	left: 16px;
+	top: 12px;
+	padding: 8px 12px;
+	color: var(--red);
+	background: #fff;
+	z-index: 1;
+}
+
+@media (max-width: 768px) {
+	main {
+		width: 91%;
+		padding: 40px 0 24px;
+	}
+}
+
+@media (max-width: 520px) {
+	th, td {
+		padding: 10px;
+	}
+	.choices > button {
+		width: 100%;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*, *::before, *::after {
+		scroll-behavior: auto !important;
+		animation: none !important;
+		transition: none !important;
+	}
+}
+
+[hidden] {
+	display: none !important;
+}

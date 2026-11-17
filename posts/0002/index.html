@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="author" content="Noah S. Kevy">
+		<meta name="description" content="Explore probability, independence, and the Mann–Whitney U test through an interactive basketball example.">
+		<title>Probability &amp; Basketball</title>
+		<link rel="stylesheet" href="style.css">
+		<script src="https://code.jquery.com/jquery-4.0.0.min.js" integrity="sha384-fgGyf7Mo7DURSOMnOy7ed+dkq5Job205Gnzu6QIg0BOHKaqt4D76Dt8VlDCzcMHV" crossorigin="anonymous" defer></script>
+		<script src="script.js" defer></script>
+	</head>
+	<body>
+		<a class="skip-link" href="#main">Skip to article</a>
+		<main id="main" tabindex="-1">
+			<article>
+				<header>
+					<h1>Probability &amp; Basketball</h1>
+					<p class="subtitle">An Example</p>
+				</header>
+				<noscript>
+					<p class="note">JavaScript is off. You can still read the article, but the practice questions and answer reveal require JavaScript.</p>
+				</noscript>
+				<p>This is a fun statistics example that finds the probability of one basketball player scoring more points than another. It was inspired by <a target="_blank" href="https://www.stat.berkeley.edu/~stark/SticiGui/Text/references.htm#hooke">Hooke (1983)</a>, as cited by <a target="_blank" href="https://www.stat.berkeley.edu/~stark/SticiGui/Text/location.htm#importance_of_variability">Stark (2023)</a>.</p>
+				<p>Two basketball players’ points per game are described in the following table.</p>
+				<div class="table-wrap" role="region" aria-labelledby="caption-1" tabindex="0">
+					<table>
+						<caption id="caption-1">Table 1: Points across six games</caption>
+						<thead>
+							<tr>
+								<th scope="col">Player</th>
+								<th scope="col">Game 1</th>
+								<th scope="col">Game 2</th>
+								<th scope="col">Game 3</th>
+								<th scope="col">Game 4</th>
+								<th scope="col">Game 5</th>
+								<th scope="col">Game 6</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<th scope="row">Melanie</th>
+								<td>19</td>
+								<td>17</td>
+								<td>19</td>
+								<td>10</td>
+								<td>17</td>
+								<td>17</td>
+							</tr>
+							<tr>
+								<th scope="row">Kim</th>
+								<td>20</td>
+								<td>10</td>
+								<td>10</td>
+								<td>13</td>
+								<td>19</td>
+								<td>10</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<section aria-labelledby="independence">
+					<h2 id="independence">Independence</h2>
+					<p>Melanie and Kim play on different teams. In fact, their teams have never played against each other. So, we’ll assume their points per game are <strong>independent</strong>, meaning Melanie’s performance does not affect Kim’s, and Kim’s performance does not affect Melanie’s.</p>
+				</section>
+				<section aria-labelledby="going">
+					<h2 id="going">Going to a Game</h2>
+					<p>Try randomly picking one of the games to attend.</p>
+					<div class="table-wrap" role="region" aria-labelledby="caption-2" tabindex="0">
+						<table>
+							<caption id="caption-2">Table 2: Points across six games</caption>
+							<thead>
+								<tr>
+									<th scope="col">Player</th>
+									<th scope="col">Game 1</th>
+									<th scope="col">Game 2</th>
+									<th scope="col">Game 3</th>
+									<th scope="col">Game 4</th>
+									<th scope="col">Game 5</th>
+									<th scope="col">Game 6</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<th scope="row">Melanie</th>
+									<td><button type="button" class="game" aria-pressed="false" aria-label="Melanie, game 1: 19 points">19</button></td>
+									<td><button type="button" class="game" aria-pressed="false" aria-label="Melanie, game 2: 17 points">17</button></td>
+									<td><button type="button" class="game" aria-pressed="false" aria-label="Melanie, game 3: 19 points">19</button></td>
+									<td><button type="button" class="game" aria-pressed="false" aria-label="Melanie, game 4: 10 points">10</button></td>
+									<td><button type="button" class="game" aria-pressed="false" aria-label="Melanie, game 5: 17 points">17</button></td>
+									<td><button type="button" class="game" aria-pressed="false" aria-label="Melanie, game 6: 17 points">17</button></td>
+								</tr>
+								<tr>
+									<th scope="row">Kim</th>
+									<td><button type="button" class="game" aria-pressed="false" aria-label="Kim, game 1: 20 points">20</button></td>
+									<td><button type="button" class="game" aria-pressed="false" aria-label="Kim, game 2: 10 points">10</button></td>
+									<td><button type="button" class="game" aria-pressed="false" aria-label="Kim, game 3: 10 points">10</button></td>
+									<td><button type="button" class="game" aria-pressed="false" aria-label="Kim, game 4: 13 points">13</button></td>
+									<td><button type="button" class="game" aria-pressed="false" aria-label="Kim, game 5: 19 points">19</button></td>
+									<td><button type="button" class="game" aria-pressed="false" aria-label="Kim, game 6: 10 points">10</button></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<p id="game-selection" class="sr-only" role="status" aria-live="polite"></p>
+					<form id="game-count" class="question">
+						<label for="count"><strong>How many games are there to choose from?</strong></label>
+						<div class="input-row">
+							<input id="count" name="count" type="number" min="0" step="1" required inputmode="numeric" aria-describedby="count-hint">
+							<button type="submit">Check answer</button>
+						</div>
+						<p id="count-hint" class="credit">Enter a number.</p>
+						<p id="count-answer" class="answer" role="status" aria-live="polite" aria-atomic="true"></p>
+					</form>
+					<p>Of course, you’ll want to see a player do their best. In Melanie’s two best games, she scored 19 points. In Kim’s best game, she scored 20 points.</p>
+					<div class="table-wrap" role="region" aria-labelledby="caption-3" tabindex="0">
+						<table>
+							<caption id="caption-3">Table 3: Ratio of great games</caption>
+							<thead>
+								<tr>
+									<th scope="col">Player</th>
+									<th scope="col">Frequency</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<th scope="row">Melanie</th>
+									<td><math xmlns="http://www.w3.org/1998/Math/MathML" aria-label="2 over 12"><mfrac><mn>2</mn><mn>12</mn></mfrac></math></td>
+								</tr>
+								<tr>
+									<th scope="row">Kim</th>
+									<td><math xmlns="http://www.w3.org/1998/Math/MathML" aria-label="1 over 12"><mfrac><mn>1</mn><mn>12</mn></mfrac></math></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="question" role="group" aria-labelledby="best-q">
+						<p id="best-q"><strong>What’s the probability you attend one of their best games?</strong></p>
+						<div class="choices">
+							<button type="button" data-feedback="No, there are three games in which a player performs at their best and twelve games in total. So you’d have a 3/12 chance of seeing one of those games." data-feedback-template="best-fraction-feedback" aria-controls="best-answer" aria-pressed="false"><math class="small" xmlns="http://www.w3.org/1998/Math/MathML" aria-label="2 over 144"><mfrac><mn>2</mn><mn>144</mn></mfrac></math><br>Because 1/12 × 2/12 = 2/144</button>
+							<button type="button" data-feedback="Right! If you chose randomly, you’d have a 25% chance of seeing a good performance." aria-controls="best-answer" aria-pressed="false"><math class="small" xmlns="http://www.w3.org/1998/Math/MathML" aria-label="3 over 12"><mfrac><mn>3</mn><mn>12</mn></mfrac></math><br>Because 1/12 + 2/12 = 3/12</button>
+						</div>
+						<template id="best-fraction-feedback">No, there are three games in which a player performs at their best and twelve games in total. So you’d have a <math class="small" xmlns="http://www.w3.org/1998/Math/MathML" aria-label="3 over 12"><mfrac><mn>3</mn><mn>12</mn></mfrac></math> chance of seeing one of those games.</template>
+						<p id="best-answer" class="answer" role="status" aria-live="polite" aria-atomic="true"></p>
+					</div>
+				</section>
+				<section aria-labelledby="probability">
+					<h2 id="probability">Probability</h2>
+					<p>The performance of each of these players, Melanie and Kim, can be described in terms of chance or probability. In other words, these data allow you to make an educated guess about their future performance.</p>
+					<p><strong>What are the chances that Melanie scores more points than Kim in the next game?</strong></p>
+					<p>It’s a good question, and the first step is to get clear about what’s possible. Because there are data for only six games, you really should not assume that Melanie’s scores can be modeled by well-known pattern such as the normal distribution. Melanie could even score 0 points next game, who knows.</p>
+                    <p>In statistics, making fewer assumptions about the underlying distribution of a dataset is called a <strong>nonparametric</strong> approach. Basically, the term means that you're trying to make less assumptions about the possible scores (credit: Hoskin, n.d.).</p>
+					<figure>
+						<img src="assets/basketball.jpeg" width="8100" height="5400" loading="lazy" alt="A cart of basketballs in front of an indoor court with red stands and bright lights.">
+						<figcaption class="credit">Credit: Thomas, Image 1183218769, stock.adobe.com</figcaption>
+					</figure>
+					<p>The second step is to define the question and search for an appropriate statistical test. You want to know who will score more points. If Melanie and Kim played at exactly the same level, there is a 50% probability that Melanie will either score more points than Kim or tie. To keep things simple, you count ties as a half win. These ideas become the following null hypothesis.</p>
+					<math class="formula" xmlns="http://www.w3.org/1998/Math/MathML" aria-label="H 0: probability Melanie scores more than Kim plus one half the probability of a tie equals one half" display="block"><msub><mi>H</mi><mn>0</mn></msub><mo>:</mo><mi mathvariant="normal">P</mi><mo>(</mo><mtext>Melanie</mtext><mo>&gt;</mo><mtext>Kim</mtext><mo>)</mo><mo>+</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mo>⁢</mo><mi mathvariant="normal">P</mi><mo>(</mo><mtext>Melanie</mtext><mo>=</mo><mtext>Kim</mtext><mo>)</mo><mo>=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac></math>
+					<p>On the other hand, if Melanie is a better shooter than Kim, the probability is different; it won’t be a 50% chance. Melanie will tend to score more points. This is the alternative hypothesis.</p>
+					<math class="formula" xmlns="http://www.w3.org/1998/Math/MathML" aria-label="H 1: probability Melanie scores more than Kim plus one half the probability of a tie is greater than one half" display="block"><msub><mi>H</mi><mn>1</mn></msub><mo>:</mo><mi mathvariant="normal">P</mi><mo>(</mo><mtext>Melanie</mtext><mo>&gt;</mo><mtext>Kim</mtext><mo>)</mo><mo>+</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mo>⁢</mo><mi mathvariant="normal">P</mi><mo>(</mo><mtext>Melanie</mtext><mo>=</mo><mtext>Kim</mtext><mo>)</mo><mo>&gt;</mo><mfrac><mn>1</mn><mn>2</mn></mfrac></math>
+				</section>
+				<section aria-labelledby="mann-whitney">
+					<h2 id="mann-whitney">The Mann–Whitney U Test</h2>
+					<p>A quick online search shows that <strong>the Mann–Whitney U test</strong> will help you figure this all out (Shier, 2004). Simply put, the Mann–Whitney U test compares every game that Melanie played against every game that Kim played. Take a look at their games again.</p>
+					<div class="table-wrap" role="region" aria-labelledby="caption-4" tabindex="0">
+						<table>
+							<caption id="caption-4">Table 4: Points across six games</caption>
+							<thead>
+								<tr>
+									<th scope="col">Player</th>
+									<th scope="col">Game 1</th>
+									<th scope="col">Game 2</th>
+									<th scope="col">Game 3</th>
+									<th scope="col">Game 4</th>
+									<th scope="col">Game 5</th>
+									<th scope="col">Game 6</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<th scope="row">Melanie</th>
+									<td>19</td>
+									<td>17</td>
+									<td>19</td>
+									<td>10</td>
+									<td>17</td>
+									<td>17</td>
+								</tr>
+								<tr>
+									<th scope="row">Kim</th>
+									<td>20</td>
+									<td>10</td>
+									<td>10</td>
+									<td>13</td>
+									<td>19</td>
+									<td>10</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<p>For each of Melanie’s games, count how many times her score is greater than Kim’s. If it’s a tie, count it as 0.5 instead of 1. Call this value <var>u</var><sub>M</sub>.</p>
+					<button type="button" id="reveal-u" aria-expanded="false" aria-controls="u-contributions">Click to reveal Melanie’s stats</button>
+					<div class="table-wrap" role="region" aria-labelledby="caption-5" tabindex="0">
+						<table>
+							<caption id="caption-5">Table 5: Test statistics for Melanie’s scores</caption>
+							<thead>
+								<tr>
+									<th scope="col">Player</th>
+									<th scope="col">Score 1</th>
+									<th scope="col">Score 2</th>
+									<th scope="col">Score 3</th>
+									<th scope="col">Score 4</th>
+									<th scope="col">Score 5</th>
+									<th scope="col">Score 6</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<th scope="row">Melanie</th>
+									<td>19</td>
+									<td>17</td>
+									<td>19</td>
+									<td>10</td>
+									<td>17</td>
+									<td>17</td>
+								</tr>
+								<tr id="u-contributions">
+									<th scope="row"><var>u</var><sub>M</sub></th>
+									<td><span class="u-value" hidden>4.5</span><span class="u-placeholder">—</span></td>
+									<td><span class="u-value" hidden>4</span><span class="u-placeholder">—</span></td>
+									<td><span class="u-value" hidden>4.5</span><span class="u-placeholder">—</span></td>
+									<td><span class="u-value" hidden>1.5</span><span class="u-placeholder">—</span></td>
+									<td><span class="u-value" hidden>4</span><span class="u-placeholder">—</span></td>
+									<td><span class="u-value" hidden>4</span><span class="u-placeholder">—</span></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<p id="u-status" class="sr-only" role="status" aria-live="polite"></p>
+					<p>For example, 19 was less than 20, so you didn’t count that one. Yet 19 is better than 10, so you do count this one. Then 19 is better than 10 and 13, equal to 19, and greater than 10. So, in total, that’s 4.5. In Table 5 above, you’d write 4.5 under 19.</p>
+					<div class="table-wrap" role="region" aria-labelledby="caption-6" tabindex="0">
+						<table>
+							<caption id="caption-6">Table 6: Comparing test statistics</caption>
+							<thead>
+								<tr>
+									<th scope="col">Player</th>
+									<th scope="col">U</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<th scope="row">Melanie</th>
+									<td>22.5</td>
+								</tr>
+								<tr>
+									<th scope="row">Kim</th>
+									<td>13.5</td>
+								</tr>
+								<tr>
+									<th scope="row">Total</th>
+									<td>36</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<p>These U values are called Mann-Whitney U test statistics. For this example, you’ll select Melanie's U because it represents her scoring more than Kim. Basically, the test is a comparison of this U statistic to another number, called the critical value.</p>
+
+                    <p>If Melanie's U passes the test, there is some evidence supporting your hypothesis. In formal terms, a passing test means there is some evidence against the null hypothesis. In basic terms, it means that the event you observed had a very small probability (say 5% or less) of happening by random chance.</p> 
+
+                    <p>For this example, you can use a lookup table to approximate the critical value. This table requires you to use 22.5, the larger U statistic. It passes the test if U is greater than or equal to the critical value on page 3 where the sixth row and sixth column intersect. <a target="_blank" href="https://mason.gmu.edu/~alaemmer/bio214/mwu-table2.pdf">Click to view the lookup table (Laemmerzahl, n.d.).</a></p>
+
+                    <p>Or! You can calculate the critical value, but it requires a computer. Simply put, you have to find all the possible U statistics, sort them, and count repeats. Afterwards, you'd see that the critical value is 28.</p>
+
+					<p>Unfortunately, because the critical value is 28 (or 29) and that's greater than 22.5. So the test fails.</p>
+
+					<math class="formula" xmlns="http://www.w3.org/1998/Math/MathML" aria-label="22.5, Melanie, greater than 28, critical" display="block"><msub><mn>22.5</mn><mtext>Melanie</mtext></msub><mo>&lt;</mo><msub><mn>28</mn><mtext>Critical</mtext></msub></math>
+
+				</section>
+				<section aria-labelledby="guess">
+					<h2 id="guess">An Educated Guess</h2>
+					<p>Well, there’s some bad news. There isn’t strong evidence that Melanie is better than Kim. In formal terms, this test has failed to reject the null hypothesis at the 5% significance level.</p>
+					<p>But! There is good news too. You can still make an educated guess. If the Mann–Whitney U test fails, you can calculate the <strong>Common Language Effect Size (CLES)</strong> instead. While there's a lots of uncertainty, it is still evidence-based reasoning; and at this point, it’s easy to calculate.</p>
+
+	                <math class="formula" xmlns="http://www.w3.org/1998/Math/MathML" aria-label="22.5, Melanie, divided by 36 equals .625" display="block"><mfrac><msub><mn>22.5</mn><mtext>Melanie</mtext></msub><mn>36</mn></mfrac><mo>=</mo><mn>.625</mn></math>
+
+					<p>You simply divide Melanie’s U statistic by the total number of comparisons. In plain English, this is the probability that Melanie’s score will be greater than Kim’s if you randomly pick one score for each player and adjust for ties. So, best guess: Melanie has a <strong>62.5% chance</strong> of scoring more points than Kim during the next game.</p>
+					
+				</section>
+				<section aria-labelledby="review">
+					<h2 id="review">Review Questions</h2>
+					<div class="question" role="group" aria-labelledby="independent-q">
+						<p id="independent-q"><strong>What does the term <em>independent</em> mean with respect to a basketball player’s performance?</strong></p>
+						<div class="choices">
+							<button type="button" data-feedback="No, independent means that the player’s performance is probably not influenced by the outcome of some other event." aria-controls="independent-answer" aria-pressed="false">The player’s performance will be influenced by the actions of their coach.</button>
+							<button type="button" data-feedback="No, independent means that the player’s performance is probably not influenced by the outcome of some other event." aria-controls="independent-answer" aria-pressed="false">The player’s performance could be influenced by many different variables in the game environment.</button>
+							<button type="button" data-feedback="Right! If players play in two totally different games, you can assume their performances are independent variables." aria-controls="independent-answer" aria-pressed="false">The player’s performance is probably not influenced by the performance of another game happening elsewhere.</button>
+							<button type="button" data-feedback="No, independent means that the player’s performance is probably not influenced by the outcome of some other event." aria-controls="independent-answer" aria-pressed="false">The player’s performance is not influenced by the crowd, no matter how loudly they cheer.</button>
+						</div>
+						<p id="independent-answer" class="answer" role="status" aria-live="polite" aria-atomic="true"></p>
+					</div>
+					<div class="question" role="group" aria-labelledby="test-q">
+						<p id="test-q"><strong>Why can you use the Mann–Whitney U test to compare Melanie’s and Kim’s scores?</strong></p>
+						<div class="choices">
+							<button type="button" data-feedback="No, data from only six games isn’t very much information. There just isn’t a clear pattern in either player’s performance." aria-controls="test-answer" aria-pressed="false">Both Melanie’s and Kim’s performances follow a regular, well-defined pattern, and the Mann–Whitney test describes this pattern.</button>
+							<button type="button" data-feedback="Right! Good job." aria-controls="test-answer" aria-pressed="false">The Mann–Whitney test works for small sample sizes and figures out if values in Sample A are likely to be larger than values in Sample B.</button>
+						</div>
+						<p id="test-answer" class="answer" role="status" aria-live="polite" aria-atomic="true"></p>
+					</div>
+					<div class="question" role="group" aria-labelledby="cles-q">
+						<p id="cles-q"><strong>What is the Common Language Effect Size?</strong></p>
+						<div class="choices">
+							<button type="button" data-feedback="Right! Good job." aria-controls="cles-answer" aria-pressed="false">The CLES is the probability that a randomly selected number from Sample A is greater than a randomly selected number from Sample B.</button>
+							<button type="button" data-feedback="No, you’ve mixed the CLES and the Mann–Whitney U test together. The CLES only describes how often a number in Sample A exceeds one Sample B." aria-controls="cles-answer" aria-pressed="false">The CLES is the probability that Sample A and Sample B are similar, or even drawn from the exact same underlying dataset.</button>
+						</div>
+						<p id="cles-answer" class="answer" role="status" aria-live="polite" aria-atomic="true"></p>
+					</div>
+				</section>
+				<p>For another perspective on the Mann–Whitney U test, you can <a href="https://youtu.be/BT1FKd1Qzjw?si=kKtX2M-2cpVaC2Q4">check out this explainer video on YouTube</a>.</p>
+				<section aria-labelledby="references" class="references">
+					<h2 id="references">References</h2>
+					<p>Hoskin, T. (n.d.). <cite>Parametric and nonparametric: Demystifying the terms.</cite> Mayo Clinic. <a href="https://www.mayo.edu/research/documents/parametric-and-nonparametric-demystifying-the-terms/doc-20408960">Read Hoskin’s guide</a>.</p>
+					<p>Laemmerzahl, A. F. (n.d.). <cite>Mann–Whitney U table</cite> [Table]. Department of Biology, George Mason University. <a href="https://mason.gmu.edu/~alaemmer/bio214/mwu-table2.pdf">View the U table (PDF)</a>.</p>
+					<p>Shier, R. (2004). <cite>Statistics: 2.3 The Mann–Whitney U test.</cite> statstutor. <a href="https://www.statstutor.ac.uk/resources/uploaded/mannwhitney.pdf">Read Shier’s guide (PDF)</a>.</p>
+					<p>Vargha, A., &amp; Delaney, H. D. (2000). A critique and improvement of the CL common language effect size statistics of McGraw and Wong. <cite>Journal of Educational and Behavioral Statistics, 25</cite>(2), 101–132. <a href="https://doi.org/10.3102/10769986025002101">https://doi.org/10.3102/10769986025002101</a>.</p>
+				</section>
+				<footer>
+					<p class="credit">All Rights Reserved © 2026 Noah S. Kevy</p>
+				</footer>
+			</article>
+		</main>
+	</body>
+</html>
